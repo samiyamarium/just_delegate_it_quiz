@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced AI Delegation Framework & Loop Engineering - Self-Assessment</title>
+    <style>
+        :root {
+            --bg-base: #121013;
+            --bg-card: #1c181e;
+            --bg-card-hover: #262029;
+            --accent-pink: #f4b4d6;
+            --accent-pink-muted: #d88cb9;
+            --accent-pink-glow: rgba(244, 180, 214, 0.25);
+            --silver-light: #f3f3f5;
+            --silver-mid: #c0c0c7;
+            --silver-dark: #6e6e79;
+            --border-silver: rgba(243, 243, 245, 0.15);
+            --border-pink: rgba(244, 180, 214, 0.3);
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--silver-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 1px solid var(--border-pink);
+            margin-bottom: 3rem;
+            background: radial-gradient(circle at top, rgba(244, 180, 214, 0.08) 0%, transparent 70%);
+            border-radius: 16px;
+        }
+
+        h1 {
+            color: var(--accent-pink);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 20px var(--accent-pink-glow);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--silver-mid);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-bar {
+            display: inline-flex;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-silver);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--silver-mid);
+        }
+
+        .meta-bar span strong {
+            color: var(--accent-pink);
+        }
+
+        .mcq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .mcq-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-silver);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-card:hover {
+            border-color: var(--border-pink);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .mcq-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .mcq-num {
+            background: rgba(244, 180, 214, 0.1);
+            color: var(--accent-pink);
+            border: 1px solid var(--border-pink);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .mcq-question {
+            color: var(--silver-light);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-left: 2.75rem;
+        }
+
+        .option-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-silver);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            color: var(--silver-mid);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .option-key {
+            color: var(--accent-pink-muted);
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        /* Section Title Styling */
+        .section-header {
+            border-left: 4px solid var(--accent-pink);
+            padding-left: 1rem;
+            margin: 4rem 0 2rem;
+        }
+
+        .section-header h2 {
+            color: var(--accent-pink);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--silver-mid);
+            font-size: 0.95rem;
+        }
+
+        /* Answer Key & Explanations Table / Cards */
+        .key-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-silver);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .key-item {
+            background: rgba(244, 180, 214, 0.05);
+            border: 1px solid var(--border-pink);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .key-num {
+            color: var(--silver-mid);
+            font-family: var(--font-mono);
+        }
+
+        .key-ans {
+            color: var(--accent-pink);
+            font-weight: 800;
+            font-family: var(--font-mono);
+        }
+
+        .explanation-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-silver);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .exp-head {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-silver);
+            padding-bottom: 0.5rem;
+        }
+
+        .exp-num {
+            color: var(--accent-pink);
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .exp-correct {
+            background: rgba(244, 180, 214, 0.15);
+            color: var(--accent-pink);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+        }
+
+        .exp-body {
+            color: var(--silver-mid);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0 1rem;
+            color: var(--silver-dark);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-silver);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid { margin-left: 0; }
+            .mcq-header { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Advanced AI Delegation & Loop Engineering</h1>
+        <div class="subtitle">30 Comprehensive Multiple-Choice Questions & Verification Analysis</div>
+        <div class="meta-bar">
+            <span>Level: <strong>Advanced Core Concepts</strong></span>
+            <span>Questions: <strong>30 MCQs</strong></span>
+            <span>Theme: <strong>Silver & Pink</strong></span>
+        </div>
+    </header>
+
+    <!-- MCQs Section -->
+    <div class="mcq-container">
+
+        <!-- Q1 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q01</span>
+                <div class="mcq-question">What fundamental operational shift distinguishes "Giving AI a Job" from traditional "Asking AI"?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Relying on natural language queries rather than formal system code.</div>
+                <div class="option-item"><span class="option-key">B.</span> Transitioning human responsibility from task execution to output verification while defining an end result.</div>
+                <div class="option-item"><span class="option-key">C.</span> Transferring legal and operational accountability entirely to the automated language model.</div>
+                <div class="option-item"><span class="option-key">D.</span> Restricting the model to internal parametric memory to eliminate web search dependencies.</div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q02</span>
+                <div class="mcq-question">Why is providing a detailed step-by-step procedural recipe often considered sub-optimal in human-AI delegation loops?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Language models lack the ability to follow sequential multi-step logic.</div>
+                <div class="option-item"><span class="option-key">B.</span> Procedural recipes artificially constrain execution to the human's bounded approach instead of defining target conditions.</div>
+                <div class="option-item"><span class="option-key">C.</span> Executing procedural instructions consumes more tokens than generating dynamic reasoning loops.</div>
+                <div class="option-item"><span class="option-key">D.</span> AI models automatically reject prompts that specify procedural mechanics.</div>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q03</span>
+                <div class="mcq-question">Which of the following contains the complete list of components required in a Delegation Brief?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> System Prompt, User Prompt, Context, Fine-Tuning Data, API Key, Model Identifier.</div>
+                <div class="option-item"><span class="option-key">B.</span> Outcome, Context, Constraints, Authority, Deliverable, Verification.</div>
+                <div class="option-item"><span class="option-key">C.</span> Objective, Inputs, Functions, Temperature, Top-P, Stop Sequences.</div>
+                <div class="option-item"><span class="option-key">D.</span> Task, Recipe, Search Parameters, Memory Horizon, Human Approval, Exit Code.</div>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q04</span>
+                <div class="mcq-question">In the context of the Delegation Loop, what role does the "Authority" parameter play in a brief?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> It designates which external APIs the language model is permitted to call during execution.</div>
+                <div class="option-item"><span class="option-key">B.</span> It establishes boundaries between decisions the AI can make independently versus actions requiring explicit human authorization.</div>
+                <div class="option-item"><span class="option-key">C.</span> It configures user access permissions and role-based access controls within the enterprise application.</div>
+                <div class="option-item"><span class="option-key">D.</span> It grants the LLM root permissions to execute shell commands without sandboxing.</div>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q05</span>
+                <div class="mcq-question">How does a "Deliverable" differ from a standard "Answer" in formal AI delegation?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> An answer is conversational text in chat, while a deliverable is a structured artifact formatted for immediate external utility.</div>
+                <div class="option-item"><span class="option-key">B.</span> An answer contains verified facts, whereas a deliverable consists exclusively of raw unverified data streams.</div>
+                <div class="option-item"><span class="option-key">C.</span> Answers are produced by large base models, while deliverables are built using fine-tuned micro-models.</div>
+                <div class="option-item"><span class="option-key">D.</span> Deliverables do not permit any internal structural formatting such as markdown tables or JSON objects.</div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q06</span>
+                <div class="mcq-question">Which step of the Delegation Loop requires the human supervisor to validate outputs prior to final adoption?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Intervene</div>
+                <div class="option-item"><span class="option-key">B.</span> Observe</div>
+                <div class="option-item"><span class="option-key">C.</span> Verify</div>
+                <div class="option-item"><span class="option-key">D.</span> Delegate</div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q07</span>
+                <div class="mcq-question">When managing ground-truth constraints on private internal data, what instruction best prevents AI hallucination?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> "Use web search to fill in missing details from the uploaded file."</div>
+                <div class="option-item"><span class="option-key">B.</span> "Rely exclusively on the provided text, and explicitly mark missing data as 'not in source'."</div>
+                <div class="option-item"><span class="option-key">C.</span> "Infer reasonable values for missing information based on parametric knowledge."</div>
+                <div class="option-item"><span class="option-key">D.</span> "Synthesize external assumptions to present a complete document."</div>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q08</span>
+                <div class="mcq-question">What is the primary function of the "Plan-First" protocol in delegation workflows?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> To generate an automatic system log for compliance reporting.</div>
+                <div class="option-item"><span class="option-key">B.</span> To force the AI to outline its proposed strategy and pause for human validation before execution.</div>
+                <div class="option-item"><span class="option-key">C.</span> To decrease initial response latency by pre-compiling tokens.</div>
+                <div class="option-item"><span class="option-key">D.</span> To automatically override model system boundaries during long-context processing.</div>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q09</span>
+                <div class="mcq-question">In Project/Knowledge environment architectures, where should immutable operational rules be stored?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Ephemeral context windows</div>
+                <div class="option-item"><span class="option-key">B.</span> Standing Instructions / System Custom Instructions</div>
+                <div class="option-item"><span class="option-key">C.</span> Uploaded temporary CSV files</div>
+                <div class="option-item"><span class="option-key">D.</span> Search index web parameters</div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q10</span>
+                <div class="mcq-question">Which intervention move is appropriate when an AI system is progressing logically but heading slightly off-course?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Escalate Capability</div>
+                <div class="option-item"><span class="option-key">B.</span> Redirect Direction</div>
+                <div class="option-item"><span class="option-key">C.</span> Take Job Back</div>
+                <div class="option-item"><span class="option-key">D.</span> Re-prompt with entire brief from scratch</div>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q11</span>
+                <div class="mcq-question">What defines a highly portable Delegation Brief?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> It contains vendor-specific API metadata tailored to a single LLM infrastructure.</div>
+                <div class="option-item"><span class="option-key">B.</span> It defines objective job bounds clearly enough to run seamlessly across ChatGPT, Claude, or Gemini without modification.</div>
+                <div class="option-item"><span class="option-key">C.</span> It is written in binary code executable directly by edge processors.</div>
+                <div class="option-item"><span class="option-key">D.</span> It relies on proprietary user interface shortcuts specific to one platform UI.</div>
+            </div>
+        </div>
+
+        <!-- Q12 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q12</span>
+                <div class="mcq-question">According to the Verification Opened framework, what are the four sequential steps of verifying AI output?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Read, Edit, Publish, Archive</div>
+                <div class="option-item"><span class="option-key">B.</span> Identify, Trace, Challenge, Decide</div>
+                <div class="option-item"><span class="option-key">C.</span> Parse, Compile, Execute, Validate</div>
+                <div class="option-item"><span class="option-key">D.</span> Scan, Summarize, Restructure, Confirm</div>
+            </div>
+        </div>
+
+        <!-- Q13 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q13</span>
+                <div class="mcq-question">What action should a user take when sensitive private data must be processed within a delegation run?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Sanitize the payload by removing PII and execute within a temporary or incognito session.</div>
+                <div class="option-item"><span class="option-key">B.</span> Upload raw records to the shared global knowledge base for future retrieval.</div>
+                <div class="option-item"><span class="option-key">C.</span> Rely on standard model settings without adjusting data retention flags.</div>
+                <div class="option-item"><span class="option-key">D.</span> Append a non-binding legal disclaimers at the bottom of the user prompt.</div>
+            </div>
+        </div>
+
+        <!-- Q14 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q14</span>
+                <div class="mcq-question">What occurs when an unverified assumption or hallucinated metric survives conversion from chat text into a final deliverable?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> It automatically triggers a model error flag upon export.</div>
+                <div class="option-item"><span class="option-key">B.</span> It becomes hard-coded risk within downstream business operations due to structural polish masking invalid data.</div>
+                <div class="option-item"><span class="option-key">C.</span> The platform cleans invalid claims automatically during table rendering.</div>
+                <div class="option-item"><span class="option-key">D.</span> Parametric memory auto-corrects the error upon downloading the file.</div>
+            </div>
+        </div>
+
+        <!-- Q15 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q15</span>
+                <div class="mcq-question">In the context of delegation loops, what does the principle "Humans define intent. Agents execute. Humans verify outcomes." imply about legal liability?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Responsibility transfers to the AI provider upon execution.</div>
+                <div class="option-item"><span class="option-key">B.</span> Ultimate accountability remains strictly with the human delegator regardless of agent autonomy.</div>
+                <div class="option-item"><span class="option-key">C.</span> Liability is split equally between the AI model developer and the user.</div>
+                <div class="option-item"><span class="option-key">D.</span> Agents assume liability if provided with a complete Delegation Brief.</div>
+            </div>
+        </div>
+
+        <!-- Q16 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q16</span>
+                <div class="mcq-question">When should a supervisor trigger the "Escalate Capability" intervention move?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> When the model makes a minor typographical error in formatting.</div>
+                <div class="option-item"><span class="option-key">B.</span> When the task complexity exceeds the model's current reasoning capacity, requiring extended thinking modes or stronger models.</div>
+                <div class="option-item"><span class="option-key">C.</span> When the AI requests a clarification regarding constraints.</div>
+                <div class="option-item"><span class="option-key">D.</span> When web search returns too many relevant domain links.</div>
+            </div>
+        </div>
+
+        <!-- Q17 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q17</span>
+                <div class="mcq-question">How should persistent "Knowledge" files be used within project workspace environments?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> As temporary, single-use scratchpads cleared after every message.</div>
+                <div class="option-item"><span class="option-key">B.</span> As canonical source context that automatically informs all sequential runs within that container.</div>
+                <div class="option-item"><span class="option-key">C.</span> As dynamic execution scripts that override local model weights.</div>
+                <div class="option-item"><span class="option-key">D.</span> As secondary storage for user chat histories across all workspaces.</div>
+            </div>
+        </div>
+
+        <!-- Q18 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q18</span>
+                <div class="mcq-question">What is the risk of providing vague boundaries in the "Constraints" field of a brief?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> The model will refuse to execute the request.</div>
+                <div class="option-item"><span class="option-key">B.</span> The AI may fill ambiguity with unwarranted assumptions, exceeding intended scope or budget.</div>
+                <div class="option-item"><span class="option-key">C.</span> Context windows will collapse automatically.</div>
+                <div class="option-item"><span class="option-key">D.</span> Execution speed will increase beyond verification limits.</div>
+            </div>
+        </div>
+
+        <!-- Q19 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q19</span>
+                <div class="mcq-question">Why is checking live hyperlinked source dates an essential sub-step in web-enabled research runs?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Citations generated by search tools may reference outdated or irrelevant domain mirrors despite apparent structure.</div>
+                <div class="option-item"><span class="option-key">B.</span> Web search engines automatically block URLs containing historical timestamps.</div>
+                <div class="option-item"><span class="option-key">C.</span> Link checking reduces token consumption on follow-up prompts.</div>
+                <div class="option-item"><span class="option-key">D.</span> Language models require live network pinging to validate local syntax.</div>
+            </div>
+        </div>
+
+        <!-- Q20 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q20</span>
+                <div class="mcq-question">What is the final phase of the Verification Opened protocol before adopting a deliverable?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Trace</div>
+                <div class="option-item"><span class="option-key">B.</span> Challenge</div>
+                <div class="option-item"><span class="option-key">C.</span> Decide</div>
+                <div class="option-item"><span class="option-key">D.</span> Identify</div>
+            </div>
+        </div>
+
+        <!-- Q21 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q21</span>
+                <div class="mcq-question">When an AI agent repeatedly fails to achieve an acceptable standard despite multiple targeted interventions, what is the correct protocol move?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Re-run the exact same prompt indefinitely until output changes.</div>
+                <div class="option-item"><span class="option-key">B.</span> Take Job Back (re-reclaim human execution).</div>
+                <div class="option-item"><span class="option-key">C.</span> Lower verification standards to accept current outputs.</div>
+                <div class="option-item"><span class="option-key">D.</span> Remove constraints from the Delegation Brief.</div>
+            </div>
+        </div>
+
+        <!-- Q22 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q22</span>
+                <div class="mcq-question">What purpose does a "Delegation Record" serve in enterprise agent workflows?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> It functions as an audit trail documenting brief parameters, run logs, verification checks, and final human sign-off.</div>
+                <div class="option-item"><span class="option-key">B.</span> It dynamically adjusts model temperature during execution cycles.</div>
+                <div class="option-item"><span class="option-key">C.</span> It stores backup system prompts in case of platform downtime.</div>
+                <div class="option-item"><span class="option-key">D.</span> It provides automated billing tracking for API usage.</div>
+            </div>
+        </div>
+
+        <!-- Q23 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q23</span>
+                <div class="mcq-question">How does setting explicit "Authority" parameters prevent system drift?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> By restricting the LLM's vocabulary choices to formal language.</div>
+                <div class="option-item"><span class="option-key">B.</span> By preventing the model from autonomously making high-stakes assumptions outside its designated scope.</div>
+                <div class="option-item"><span class="option-key">C.</span> By automatically stopping output generation when response length exceeds 500 words.</div>
+                <div class="option-item"><span class="option-key">D.</span> By preventing network connections during local model inference.</div>
+            </div>
+        </div>
+
+        <!-- Q24 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q24</span>
+                <div class="mcq-question">Why must "Verification" criteria be defined *before* initiating the run rather than after reviewing outputs?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Models require pre-defined validation criteria to allocate reasoning tokens.</div>
+                <div class="option-item"><span class="option-key">B.</span> Pre-defining criteria prevents human confirmation bias from rationalizing flawed AI outputs post-hoc.</div>
+                <div class="option-item"><span class="option-key">C.</span> Platform UI interfaces do not allow text entry after generation completes.</div>
+                <div class="option-item"><span class="option-key">D.</span> It enables automated compilation of web search queries.</div>
+            </div>
+        </div>
+
+        <!-- Q25 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q25</span>
+                <div class="mcq-question">Which design pattern characterizes "Need First, Then Tool" selection?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Activating platform switches and tools only when dictated by specific job requirements within the brief.</div>
+                <div class="option-item"><span class="option-key">B.</span> Turning on all available plugins, web search, and code execution parameters by default.</div>
+                <div class="option-item"><span class="option-key">C.</span> Choosing the most expensive foundation model prior to analyzing task scope.</div>
+                <div class="option-item"><span class="option-key">D.</span> Building custom software wrappers before attempting direct context prompting.</div>
+            </div>
+        </div>
+
+        <!-- Q26 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q26</span>
+                <div class="mcq-question">In the context of delegation, what is "Parametric Memory"?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Live real-time data fetched via external browsing tools.</div>
+                <div class="option-item"><span class="option-key">B.</span> Internal knowledge baked directly into model weights during training, subject to knowledge cutoffs.</div>
+                <div class="option-item"><span class="option-key">C.</span> Temporary context stored within session memory buffers.</div>
+                <div class="option-item"><span class="option-key">D.</span> Documents stored within a persistent workspace folder.</div>
+            </div>
+        </div>
+
+        <!-- Q27 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q27</span>
+                <div class="mcq-question">What is the "Challenge" step within the verification protocol designed to evaluate?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Testing logical consistency, stress-testing edge cases, and looking for missing context or subtle hallucinations.</div>
+                <div class="option-item"><span class="option-key">B.</span> Checking if spelling and grammar match baseline rules.</div>
+                <div class="option-item"><span class="option-key">C.</span> Verifying that response latency met pre-set speed benchmarks.</div>
+                <div class="option-item"><span class="option-key">D.</span> Confirming that total output token counts match context limits.</div>
+            </div>
+        </div>
+
+        <!-- Q28 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q28</span>
+                <div class="mcq-question">How should iterative lessons learned from model drift or errors be preserved for future tasks?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> Memorized by individual users for manual prompt tweaks.</div>
+                <div class="option-item"><span class="option-key">B.</span> Codified directly into standing instructions or updated Delegation Brief templates.</div>
+                <div class="option-item"><span class="option-key">C.</span> Maintained in temporary chat histories for auto-indexing.</div>
+                <div class="option-item"><span class="option-key">D.</span> Saved as raw code snippets within external developer logs.</div>
+            </div>
+        </div>
+
+        <!-- Q29 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q29</span>
+                <div class="mcq-question">Which scenario indicates a failure in setting proper "Constraints"?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> The AI outputs a structured 3-column table as requested.</div>
+                <div class="option-item"><span class="option-key">B.</span> The AI uses paid external services or generates non-compliant format types not authorized for the task.</div>
+                <div class="option-item"><span class="option-key">C.</span> The AI pauses execution to present a step-by-step plan.</div>
+                <div class="option-item"><span class="option-key">D.</span> The AI marks missing variables as "not in source".</div>
+            </div>
+        </div>
+
+        <!-- Q30 -->
+        <div class="mcq-card">
+            <div class="mcq-header">
+                <span class="mcq-num">Q30</span>
+                <div class="mcq-question">What is the main advantage of managing AI workflows via systematic loops rather than unstructured conversations?</div>
+            </div>
+            <div class="options-grid">
+                <div class="option-item"><span class="option-key">A.</span> It eliminates the need for human review before deployment.</div>
+                <div class="option-item"><span class="option-key">B.</span> It provides predictable, repeatable, and verifiable execution across diverse platforms and task types.</div>
+                <div class="option-item"><span class="option-key">C.</span> It reduces token usage across all API calls to absolute zero.</div>
+                <div class="option-item"><span class="option-key">D.</span> It guarantees 100% mathematical accuracy without external checks.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Answer Key Section -->
+    <div class="section-header">
+        <h2>Answer Key Matrix</h2>
+        <p>Quick lookup grid for assessment scoring</p>
+    </div>
+
+    <div class="key-grid">
+        <div class="key-item"><span class="key-num">Q01:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q02:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q03:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q04:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q05:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q06:</span><span class="key-ans">C</span></div>
+        <div class="key-item"><span class="key-num">Q07:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q08:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q09:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q10:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q11:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q12:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q13:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q14:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q15:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q16:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q17:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q18:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q19:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q20:</span><span class="key-ans">C</span></div>
+        <div class="key-item"><span class="key-num">Q21:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q22:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q23:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q24:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q25:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q26:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q27:</span><span class="key-ans">A</span></div>
+        <div class="key-item"><span class="key-num">Q28:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q29:</span><span class="key-ans">B</span></div>
+        <div class="key-item"><span class="key-num">Q30:</span><span class="key-ans">B</span></div>
+    </div>
+
+    <!-- Explanations Section -->
+    <div class="section-header">
+        <h2>Detailed Explanations & Structural Analysis</h2>
+        <p>In-depth technical breakdown of correct choices</p>
+    </div>
+
+    <div class="explanations-container">
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q01</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Giving AI a job fundamentally shifts human effort from generating intermediate steps to defining the expected outcome and rigorously verifying the resulting deliverable[cite: 1]. Accountability stays with the human supervisor throughout[cite: 1].
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q02</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Prescribing strict step-by-step recipes limits execution to the user's manual approach. Delegating the outcome allows the system to determine optimal paths while leaving the human to evaluate results against defined acceptance criteria.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q03</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                A standard Delegation Brief comprises six foundational elements: Outcome, Context, Constraints, Authority, Deliverable, and Verification.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q04</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                The Authority section specifies decision-making parameters. It delineates autonomous actions from those requiring explicit user approval before proceeding.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q05</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                An answer provides conversational chat responses, whereas a deliverable yields a complete, structured artifact (such as a formal document or structured table) ready for external use.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q06</span>
+                <span class="exp-correct">Correct: C</span>
+            </div>
+            <div class="exp-body">
+                The Delegation Loop consists of Define, Delegate, Observe, Intervene, Verify, and Accept[cite: 1]. The Verify step requires evaluating output against brief specifications prior to acceptance[cite: 1].
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q07</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Ground-truth prompts require restricting output to provided sources and instructing the model to mark missing items explicitly (e.g., "not in source") to eliminate ungrounded synthesis.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q08</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                The Plan-First protocol requires the agent to present its proposed execution steps and wait for explicit human go-ahead before executing tasks.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q09</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                In project settings, permanent rules belong in Standing Instructions, while static reference materials are stored as persistent Knowledge files.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q10</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                When execution drifts off-course without breaking ground rules, the targeted intervention move is "Redirect Direction".
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q11</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Portability means a brief focuses on fundamental task parameters rather than platform-specific UI controls, running across multiple LLMs without modification.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q12</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                The Verification Opened framework follows four structured sub-steps: Identify, Trace, Challenge, and Decide.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q13</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                Handling sensitive data requires sanitizing private identifiers and utilizing temporary or incognito sessions to prevent persistent indexing.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q14</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Formatting errors or hallucinations into clean deliverables can create operational risks, as professional presentation often masks unverified underlying data.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q15</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Automating execution does not transfer legal or operational liability; final oversight and decision-making remain with the human delegator[cite: 1].
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q16</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                When a task exceeds base capacity, the "Escalate Capability" move switches to advanced reasoning modes or stronger model architectures.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q17</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Persistent Knowledge files act as primary context sources for all subsequent executions within a designated project workspace.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q18</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Vague constraints allow models to make arbitrary decisions, potentially violating operational limits, formatting needs, or privacy controls.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q19</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                Validating web research requires verifying source dates, as search tools can surface outdated or hallucinated link previews.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q20</span>
+                <span class="exp-correct">Correct: C</span>
+            </div>
+            <div class="exp-body">
+                The final phase of verification is "Decide," leading to Accept, Correct, Investigate, or Reject.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q21</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                If model performance remains sub-standard after targeted interventions, the final recovery step is "Take Job Back" for manual execution.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q22</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                A Delegation Record acts as an audit trail documenting the original brief, operational logs, verification steps, and final human approval.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q23</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Explicit Authority parameters establish decision boundaries, preventing unauthorized actions during autonomous execution.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q24</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Defining verification standards prior to execution establishes objective evaluation criteria, preventing post-hoc rationalization of flawed outputs.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q25</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                The "Need First, Then Tool" methodology enables platform features (such as live search or code interpreters) only when explicitly required by task constraints.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q26</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Parametric Memory refers to static internal knowledge trained into model weights, bound by training cutoffs.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q27</span>
+                <span class="exp-correct">Correct: A</span>
+            </div>
+            <div class="exp-body">
+                The Challenge stage stress-tests outputs for logical consistency, edge cases, missing context, and subtle hallucinations.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q28</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                To prevent recurring errors, lessons learned during execution should be codified into project Standing Instructions or reusable brief templates.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q29</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Uncontrolled tool usage or unauthorized output formats indicate incomplete or poorly defined constraints within the initial brief.
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <div class="exp-head">
+                <span class="exp-num">Q30</span>
+                <span class="exp-correct">Correct: B</span>
+            </div>
+            <div class="exp-body">
+                Systematic delegation loops provide repeatable, verifiable, and reliable outputs across various platforms and operational contexts[cite: 1].
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Advanced Assessment Framework | Silver & Pink Edition</p>
+        <p style="margin-top:0.5rem; font-style: italic;">"Humans define intent. Agents execute. Humans verify outcomes."</p>
+    </footer>
+
+</body>
+</html>
